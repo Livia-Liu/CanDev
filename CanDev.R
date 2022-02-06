@@ -29,7 +29,7 @@ clean_gender <- clean %>%
 
 gender_retention <- clean_gender %>% 
   filter(question == "Q53") %>%
-  group_by(dept_e, gender, answer1, answer2, answer3,anscount, surveyr) %>%
+  group_by(dept_e, gender, answer1, answer2, answer3,anscount) %>%
   rename(c(Yes = answer1, No = answer2, Notsure = answer3))%>%
   summarize()
 
@@ -43,7 +43,18 @@ gender_table <- left_join(gender_retention, gender_agree,
   pivot_wider(names_from = subindicatoreng,
               values_from = mean)
 
-write.csv(gender_table, 'gender.csv')
+table_genf <- gender_table%>%
+  filter(gender == 'Female')
+
+table_genm <- gender_table%>%
+  filter(gender == 'Male')
+
+table_genO <- gender_table%>%
+  filter(gender == 'Gender')
+
+write.csv(table_genf, 'female2020.csv')
+write.csv(table_genm, 'male2020.csv')
+write.csv(table_genO, 'other2020.csv')
 
 
 # clean disability 
